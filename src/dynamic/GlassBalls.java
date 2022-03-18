@@ -55,7 +55,7 @@ public class GlassBalls {
         System.out.println("Минимум бросков: " + (throwsAmount + minimum) + "\n");
 
         System.out.println("Теперь бросаю в промежутке " +
-                "[" + (firstFloor + section - 1) + ", " + (firstFloor + 2 * section - 1) + "]\n");
+                "[" + firstFloor + ", " + (firstFloor + section - 1) + "]\n");
 
         for (int i = firstFloor + section - 1; i <= lastFloor; i += section) {
             System.out.println("Бросаю с " + i + " этажа");
@@ -74,9 +74,9 @@ public class GlassBalls {
         System.out.println("Шар разбивается в этом промежутке: [" + firstFloor + ", " + lastFloor + "]\n");
 
         for (int i = firstFloor; i <= lastFloor; i++) {
-            System.out.println("Бросаю с " + i + "этажа");
+            System.out.println("Бросаю с " + i + " этажа");
             if (i == criticalHeight && minimum != 0) {
-                System.out.println("\nОтвет: " + i + "этаж");
+                System.out.println("\nОтвет: " + i + " этаж");
                 return;
             }
             if (minimum == 0) {
