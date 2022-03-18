@@ -1,5 +1,7 @@
 package dynamic;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -19,10 +21,15 @@ public class GlassBalls {
 
         // двоичным поиском находим промежуток, где предположительно разбиваются шары
         while (k > 2) {
-            if (n / 2 >= criticalHeight) {
-                lastFloor = n / 2 - 1;
+            // проверяем, разбился или нет
+            if (lastFloor / 2 >= criticalHeight) {
+                lastFloor = lastFloor / 2 - 1;
             } else {
-                firstFloor = n / 2 + 1;
+                if ((lastFloor - firstFloor) / 2 + firstFloor < criticalHeight) {
+                    firstFloor += (lastFloor - firstFloor) / 2;
+                } else {
+                    lastFloor -= (lastFloor - firstFloor) / 2;
+                }
             }
             throwsAmount++;
             k--;
@@ -30,12 +37,16 @@ public class GlassBalls {
 
         // этот промежуток разделим на несколько отрезков, с концов которых бросаем шары
         int floors = lastFloor - firstFloor + 1;
-        double d = 1 + 8 * floors;
-        double x = (Math.sqrt(d) - 1) / 2;
+        BigDecimal eight = new BigDecimal(8);
+        BigDecimal d = BigDecimal.ONE.add(eight.multiply(BigDecimal.valueOf(floors)));
+        double sqrt = d.sqrt(new MathContext(10)).doubleValue();
+        double x = (sqrt - 1) / 2;
         int section = (int) Math.floor(x); // размер отрезков
         if (section < x) {
             section++;
         }
+        int minimum = section;
+        System.out.println("Minimum throws: " + (throwsAmount + minimum));
 
         for (int i = firstFloor + section - 1; i <= lastFloor; i += section) {
             throwsAmount++;
@@ -47,14 +58,17 @@ public class GlassBalls {
             firstFloor = i + 1;
         }
 
+        System.out.print("Answer is correct: ");
         for (int i = firstFloor; i <= lastFloor; i++) {
-            throwsAmount++;
-            if (i == criticalHeight) {
-                System.out.println("Breaks from: " + i);
-                System.out.println("Throws taken: " + throwsAmount);
-                break;
+            if (i == criticalHeight && minimum != 0) {
+                System.out.println(true);
+                return;
             }
+            if (minimum == 0) {
+                System.out.println(false);
+                return;
+            }
+            minimum--;
         }
-        System.out.println("Error");
     }
 }
