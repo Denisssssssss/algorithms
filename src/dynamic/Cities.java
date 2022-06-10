@@ -1,10 +1,12 @@
 package dynamic;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 
 public class Cities {
 
@@ -39,23 +41,29 @@ public class Cities {
         String start = map.keySet().stream().findAny().get();
         List<String> path = new LinkedList<>();
 
-        solve(map, start, path, true, cities.length);
-        if (path.size() == cities.length) {
+        Set<String> set = new HashSet<>();
+        solve(map, start, path, true, cities.length, set, null);
+        if (set.size() == cities.length) {
             path.forEach(city -> System.out.print(city + "->"));
+            System.out.println();
         } else {
             System.out.println("No solution");
         }
     }
 
-    public static void solve(Map<String, List<Pair<String, String>>> map, String start, List<String> path, boolean isStart, int size) {
+    public static void solve(Map<String, List<Pair<String, String>>> map, String start, List<String> path, boolean isStart, int size, Set<String> set, String source) {
         if (map.containsKey(start)) {
             if (map.get(start).size() != 0) {
                 Pair<String, String> pair = map.get(start).get(0);
+                if (source == null) {
+                    source = pair.getCity();
+                }
                 map.get(start).remove(pair);
                 map.get(start).add(pair);
                 path.add(pair.getCity());
-                if (path.size() != size) {
-                    solve(map, pair.getLetter(), path, false, size);
+                set.add(pair.getCity());
+                if (!source.equals(pair.getCity()) || set.size() != size) {
+                    solve(map, pair.getLetter(), path, false, size, set, source);
                 }
             } else {
                 if (!isStart) {

@@ -2,7 +2,7 @@ package dynamic;
 
 import java.util.Scanner;
 
-public class BiggestSubsequence {
+public class BiggestCommonSubsequence {
 
     public static void main(String[] args) {
 

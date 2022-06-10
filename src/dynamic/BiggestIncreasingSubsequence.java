@@ -30,7 +30,7 @@ public class BiggestIncreasingSubsequence {
             }
         }
 
-        System.out.println("Biggest increasing subsequence");
+        System.out.print("Biggest increasing subsequence: ");
         for (int i = index - max + 1; i <= index; i++) {
             System.out.print(a[i] + " ");
         }

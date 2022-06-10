@@ -11,9 +11,9 @@ public class Bag {
     public static void main(String[] args) {
 
         Random random = new Random();
-        int space = random.nextInt(30) + 1;
+        int space = 20;
         System.out.println("Bag space: " + space);
-        int n = 10;
+        int n = 3;
         int[] weights = new int[n];
         int[] prices = new int[n];
         int[][] matrix = new int[n + 1][space + 1];
